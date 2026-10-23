@@ -8,7 +8,26 @@ namespace Projekt
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== VÄLKOMMEN TILL STEN, SAX, PÅSE ===");
+            Console.Write("=== VÄLKOMMEN TILL ");
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("STEN");
+            Console.ResetColor();
+
+            Console.Write(", ");
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("SAX");
+            Console.ResetColor();
+
+            Console.Write(", ");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("PÅSE");
+            Console.ResetColor();
+            Console.Write("-SIMULATOR");
+
+            Console.WriteLine(" ===\n");
 
             // Ladda in tidigare matchstatistik om filen finns
             string filePath = "stats.json";
@@ -44,18 +63,18 @@ namespace Projekt
                 Console.WriteLine($"\n   --- Poäng: {human.Name}: {human.Score} | {computer.Name}: {computer.Score} ---\n");
                 Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                 Console.WriteLine("Välj ditt drag:");
-                Console.WriteLine("0: Sten");
-                Console.WriteLine("1: Sax");
-                Console.WriteLine("2: Påse");
-                Console.Write("Ditt val (0-2): \n");
+                Console.WriteLine("1: Sten");
+                Console.WriteLine("2: Sax");
+                Console.WriteLine("3: Påse");
+                Console.Write("Ditt val (1-3): \n");
 
                 string input = Console.ReadLine() ?? "";
 
                 // Validera inmatningen
-                if (int.TryParse(input, out int choiceNumber) && choiceNumber >= 0 && choiceNumber <= 2)
+                if (int.TryParse(input, out int choiceNumber) && choiceNumber >= 1 && choiceNumber <= 3)
                 {
                     Choice playerChoice = (Choice)choiceNumber;
-                    Choice computerChoice = (Choice)random.Next(0, 3); // Slumpar 0, 1 eller 2
+                    Choice computerChoice = (Choice)random.Next(1, 4); // Slumpar 1, 2 eller 3
 
                     PrintChoiceAscii(human.Name, playerChoice);        // Anropar metoden för att skriva ut ASCII-konst för spelarens val
                     PrintChoiceAscii(computer.Name, computerChoice);
@@ -66,7 +85,7 @@ namespace Projekt
                 }
                 else
                 {
-                    Console.WriteLine("Ogiltigt val! Ange en siffra mellan 0 och 2.");
+                    Console.WriteLine("Ogiltigt val! Ange en siffra mellan 1 och 3.");
                 }
             }
 
@@ -80,6 +99,10 @@ namespace Projekt
                 if (stats.HumanWins == 3)   // Påskägg för tre vinster
                 {
                     Console.WriteLine("\n  *** PÅSKÄGG HITTAT! ***");
+                    Console.WriteLine(@"    _______");
+                    Console.WriteLine(@"   /       \");
+                    Console.WriteLine(@"  | (O) (O) |");
+                    Console.WriteLine(@"  |    ^    |");
                     Console.WriteLine(@"   _   _   _ ");
                     Console.WriteLine(@"  | | | | | |");
                     Console.WriteLine(@"  | |_| |_| |");

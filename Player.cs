@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Projekt
 {
-    // enum för val
+    // enum för val, sätts automatiskt till 1, 2, 3 för Sten, Sax, Påse istället för att börja på 0
     public enum Choice
     {
-        Sten,
-        Sax,
-        Påse
+        Sten = 1,
+        Sax = 2,
+        Påse = 3
     }
 
     // spelarklass
