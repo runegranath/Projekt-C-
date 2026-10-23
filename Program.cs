@@ -18,7 +18,7 @@ namespace Projekt
             {
                 string jsonString = File.ReadAllText(filePath);
                 stats = JsonSerializer.Deserialize<GameStats>(jsonString) ?? new GameStats(); // Om deserialisering misslyckas, skapa ett nytt GameStats-objekt
-                Console.WriteLine($"[Tidigare matchvinster -> Du: {stats.HumanWins} | Datorn: {stats.ComputerWins}]\n");
+                Console.WriteLine($"[Tidigare matchvinster -> Människor: {stats.HumanWins} | Datorn: {stats.ComputerWins}]\n");
             }
 
             Console.Write("\nAnge ditt namn: ");
@@ -34,7 +34,7 @@ namespace Projekt
             Player computer = new Player { Name = "Datorn" };
             Game game = new Game(human, computer);              // Gameklassen tar de två spelarna som argument
 
-            Random random = new Random();                       // slumtalsgenerator för datorns val
+            Random random = new Random();                       // slumptalsgenerator för datorns val
             int maxScore = 3;                                   // Maxpoäng för att vinna
 
             // Spelloop
@@ -47,7 +47,7 @@ namespace Projekt
                 Console.WriteLine("0: Sten");
                 Console.WriteLine("1: Sax");
                 Console.WriteLine("2: Påse");
-                Console.Write("Ditt val (0-2): ");
+                Console.Write("Ditt val (0-2): \n");
 
                 string input = Console.ReadLine() ?? "";
 
@@ -57,8 +57,8 @@ namespace Projekt
                     Choice playerChoice = (Choice)choiceNumber;
                     Choice computerChoice = (Choice)random.Next(0, 3); // Slumpar 0, 1 eller 2
 
-                    Console.WriteLine($"\nDu valde: {playerChoice}");
-                    Console.WriteLine($"Datorn valde: {computerChoice}");
+                    PrintChoiceAscii(human.Name, playerChoice);        // Anropar metoden för att skriva ut ASCII-konst för spelarens val
+                    PrintChoiceAscii(computer.Name, computerChoice);
 
                     // Kör vinstlogiken från Game-klassen
                     string result = game.DetermineWinner(playerChoice, computerChoice);
@@ -74,7 +74,7 @@ namespace Projekt
             Console.WriteLine("\n=================================");
             if (human.Score >= maxScore)
             {
-                Console.WriteLine($"GRATTIS! {human.Name} vann hela matchen!");
+                Console.WriteLine($"GRATTIS! {human.Name} vann hela matchen!\n");
                 stats.HumanWins++;          // ökar spelarens vinster
 
                 if (stats.HumanWins == 3)   // Påskägg för tre vinster
@@ -88,16 +88,59 @@ namespace Projekt
                     Console.WriteLine("\nMänniskorna har nu vunnit tre matcher. Ett steg mot att hålla maskinen på mattan.");
                     Console.WriteLine("Skynet-protokollet inaktiverat... tills vidare.\n");
                 }
-                else
-                {
-                    Console.WriteLine($"DATORN VANN MATCHEN! Bättre lycka nästa gång.");
-                    stats.ComputerWins++; // ökar datorns vinster
-                }
-                Console.WriteLine("=================================");
+            }
+            else
+            {
+                Console.WriteLine($"DATORN VANN MATCHEN! Bättre lycka nästa gång.\n");
+                stats.ComputerWins++; // ökar datorns vinster
+            }
 
-                // spara uppdaterad statistik till fil
-                string updatedJson = JsonSerializer.Serialize(stats);
-                File.WriteAllText(filePath, updatedJson);
+            Console.WriteLine("=================================");
+
+            // spara uppdaterad statistik till fil
+            string updatedJson = JsonSerializer.Serialize(stats);
+            File.WriteAllText(filePath, updatedJson);
+            Console.WriteLine($"Statistik sparad till: {Path.GetFullPath(filePath)}");
+        }
+        static void PrintChoiceAscii(string playerName, Choice choice)
+        {
+            Console.WriteLine($"{playerName} valde {choice}:");
+
+            switch (choice)
+            {
+                case Choice.Sten:
+                    Console.WriteLine(@"
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+");
+                    break;
+
+                case Choice.Sax:
+                    Console.WriteLine(@"
+   _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+");
+                    break;
+
+                case Choice.Påse:
+                    Console.WriteLine(@"
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+");
+                    break;
             }
         }
     }
+}
