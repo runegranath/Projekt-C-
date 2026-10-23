@@ -16,7 +16,7 @@ namespace Projekt
     // spelarklass
     public class Player
     {
-        public string Name { get; set; }
-        public int Score { get; set; } = 0;
+        public string Name { get; set; } = ""; // namn, sätts automatiskt till tom sträng
+        public int Score { get; set; } = 0;    // börjar på 0
     }
 }
