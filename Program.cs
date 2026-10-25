@@ -6,26 +6,8 @@ namespace Projekt
     {
         static void Main(string[] args)
         {
-            Console.Write("=== VÄLKOMMEN TILL ");
-
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("STEN");
-            Console.ResetColor();
-
-            Console.Write(", ");
-
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("SAX");
-            Console.ResetColor();
-
-            Console.Write(", ");
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("PÅSE");
-            Console.ResetColor();
-            Console.Write("-SPELET");
-
-            Console.WriteLine(" ===\n");
+            // Visa välkomstskärmen
+            GameUI.PrintWelcomeScreen();
 
             // Ladda in tidigare matchstatistik om filen finns
             string filePath = "stats.json";
@@ -98,8 +80,8 @@ namespace Projekt
 
                         string result = game.DetermineWinner(playerChoice, computerChoice);
 
-                        PrintChoiceAscii(human.Name, playerChoice);        // Anropar metoden för att skriva ut ASCII-konst för spelarens val
-                        PrintChoiceAscii(computer.Name, computerChoice);
+                        GameUI.PrintChoiceAscii(human.Name, playerChoice);        // Anropar metoden för att skriva ut ASCII-konst för spelarens val
+                        GameUI.PrintChoiceAscii(computer.Name, computerChoice);
 
                         if (human.Score > previousHumanScore)
                         {
@@ -171,47 +153,6 @@ namespace Projekt
             } while (playAgain);
 
             Console.WriteLine("Good game!");
-        }
-
-        static void PrintChoiceAscii(string playerName, Choice choice)
-        {
-            Console.WriteLine($"{playerName} valde {choice}:");
-
-            switch (choice)
-            {
-                case Choice.Sten:
-                    Console.WriteLine(@"
-    _______
----'   ____)
-      (_____)
-      (_____)
-      (____)
----.__(___)
-");
-                    break;
-
-                case Choice.Sax:
-                    Console.WriteLine(@"
-   _______
----'   ____)____
-          ______)
-       __________)
-      (____)
----.__(___)
-");
-                    break;
-
-                case Choice.Påse:
-                    Console.WriteLine(@"
-    _______
----'   ____)____
-          ______)
-          _______)
-         _______)
----.__________)
-");
-                    break;
-            }
         }
     }
 }
