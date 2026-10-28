@@ -38,14 +38,14 @@ namespace Projekt
 
             bool playAgain;
 
-            // Yttre loop för hela matcher
+            // Yttre delen av loopen för hela matcher
             do
             {
                 // Nollställ poängen inför varje ny match
                 human.Score = 0;
                 computer.Score = 0;
 
-                // Inre loop som körs tills någon når maxScore
+                // Inre delen av loopen som körs tills någon når maxScore
                 while (human.Score < maxScore && computer.Score < maxScore)
                 {
                     Console.Clear(); // Rensa konsol för varje nytt drag
