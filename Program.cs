@@ -50,29 +50,29 @@ namespace Projekt
                 {
                     Console.Clear(); // Rensa konsol för varje nytt drag
 
-                    Console.WriteLine("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    Console.WriteLine($"\n   --- Poäng: {human.Name}: {human.Score} | {computer.Name}: {computer.Score} ---\n");
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine($"   --- Poäng: {human.Name}: {human.Score} | {computer.Name}: {computer.Score} ---");
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
                     Console.WriteLine("Välj ditt drag:");
                     Console.WriteLine("1: Sten");
                     Console.WriteLine("2: Sax");
                     Console.WriteLine("3: Påse");
-                    Console.Write("Ditt val (1-3): \n");
+                    Console.Write("Ditt val (1-3): ");
 
                     string input = Console.ReadLine() ?? "";
 
-                    // Validera inmatningen
+                    // Inmatningen valideras och konverteras till Choice enum
                     if (int.TryParse(input, out int choiceNumber) && choiceNumber >= 1 && choiceNumber <= 3)
                     {
-                        Choice playerChoice = (Choice)choiceNumber;
+                        Choice playerChoice = (Choice)choiceNumber;        // Choice från Player.cs 
                         Choice computerChoice = (Choice)random.Next(1, 4); // Slumpar 1, 2 eller 3
 
                         Console.WriteLine("\nSten...");
-                        Thread.Sleep(500);                                 // Pausar i 500 millisekunder 
+                        Thread.Sleep(400);                                 // Pausar i 400 millisekunder 
                         Console.WriteLine("Sax...");
-                        Thread.Sleep(500);
-                        Console.WriteLine("Påse...\n");
-                        Thread.Sleep(500);
+                        Thread.Sleep(400);
+                        Console.WriteLine("Påse..!\n");
+                        Thread.Sleep(400);
 
                         // sparar poängen innan resultatet skrivs ut för att den yttre loopen ska kunna avgöra vem som vann matchen
                         int previousHumanScore = human.Score;
@@ -83,28 +83,20 @@ namespace Projekt
                         GameUI.PrintChoiceAscii(human.Name, playerChoice);        // Anropar metoden för att skriva ut ASCII-konst för spelarens val
                         GameUI.PrintChoiceAscii(computer.Name, computerChoice);
 
-                        if (human.Score > previousHumanScore)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        else if (computer.Score > previousComputerScore)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow; // Oavgjort
-                        }
+                        bool humanWon = human.Score > previousHumanScore;
+                        bool computerWon = computer.Score > previousComputerScore;
 
-                        Console.WriteLine(result);
-                        Console.ResetColor(); // Återställ färgen efter utskriften
+                        // Skickar text och resultat till UI-klassen
+                        GameUI.PrintRoundResult(result, humanWon, computerWon);
 
-                        Console.WriteLine("\nTryck på valfri tangent för att fortsätta...");
+                        Console.WriteLine("\nTryck på valfri tangent för att fortsätta..."); // En paus här för att spelaren ska hinna se resultat innan Clear()
                         Console.ReadKey();
                     }
                     else
                     {
                         Console.WriteLine("Ogiltigt val! Ange en siffra mellan 1 och 3.");
+                        Console.WriteLine("Tryck på valfri tangent för att försöka igen...");
+                        Console.ReadKey();
                     }
                 }
 
@@ -116,20 +108,9 @@ namespace Projekt
                     Console.WriteLine($"GRATTIS! {human.Name} vann hela matchen!\n");
                     stats.HumanWins++;          // ökar spelarens vinster
 
-                    if (stats.HumanWins == 3)   // Påskägg för tre vinster
+                    if (stats.HumanWins == 3)   // Easter egg för tre vinster
                     {
-                        Console.WriteLine("\n  *** PÅSKÄGG HITTAT! ***");
-                        Console.WriteLine(@"    _______");
-                        Console.WriteLine(@"   /       \");
-                        Console.WriteLine(@"  | (O) (O) |");
-                        Console.WriteLine(@"  |    ^    |");
-                        Console.WriteLine(@"   _   _   _ ");
-                        Console.WriteLine(@"  | | | | | |");
-                        Console.WriteLine(@"  | |_| |_| |");
-                        Console.WriteLine(@"   \       /");
-                        Console.WriteLine(@"    \_____/");
-                        Console.WriteLine("\nMänniskorna har nu vunnit tre matcher. Ett steg mot att hålla maskinen på mattan.");
-                        Console.WriteLine("Skynet-protokollet inaktiverat... tills vidare.\n");
+                        GameUI.PrintEasterEgg();
                     }
                 }
                 else
@@ -152,7 +133,7 @@ namespace Projekt
 
             } while (playAgain);
 
-            Console.WriteLine("Good game!");
+            Console.WriteLine("Bra spelat!");
         }
     }
 }

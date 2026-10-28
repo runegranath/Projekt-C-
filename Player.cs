@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Projekt
 {
-    // enum för val, sätts automatiskt till 1, 2, 3 för Sten, Sax, Påse istället för att börja på 0
+    // enum som definerar konstanterna för val, sätts automatiskt till 1, 2, 3 för Sten, Sax, Påse istället för att börja på 0
     public enum Choice
     {
         Sten = 1,

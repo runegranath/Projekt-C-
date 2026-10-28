@@ -10,8 +10,8 @@ namespace Projekt
         public Player Human { get; set; }
         public Player Computer { get; set; }
 
-        // Konstruktor för att initiera spelare
-        public Game(Player human, Player computer)
+        // Konstruktor för att initiera spelare som tar två Player-objekt som argument
+        public Game(Player human, Player computer) 
         {
             Human = human;
             Computer = computer;
@@ -20,7 +20,7 @@ namespace Projekt
         // Metod för att avgöra vinnaren
         public string DetermineWinner(Choice playerChoice, Choice computerChoice)
         {
-            // Oavgjort
+            // Oavgjort kontrolleras allra först
             if (playerChoice == computerChoice)
             {
                 return "Oavgjort!";
