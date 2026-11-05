@@ -13,10 +13,11 @@ namespace Projekt
             string filePath = "stats.json";
             GameStats stats = new GameStats(); // Skapar tomt objekt från början
 
+            // Kollar om en statistikfil redan finns
             if (File.Exists(filePath))
             {
-                string jsonString = File.ReadAllText(filePath);
-                stats = JsonSerializer.Deserialize<GameStats>(jsonString) ?? new GameStats(); // Om deserialisering misslyckas, skapa ett nytt GameStats-objekt
+                string jsonString = File.ReadAllText(filePath);                                         // Läser in JSON-strängen från filen
+                stats = JsonSerializer.Deserialize<GameStats>(jsonString) ?? new GameStats();           // Om deserialisering misslyckas, skapa ett nytt GameStats-objekt
                 Console.WriteLine($"[Tidigare matchvinster -> Människor: {stats.HumanWins} | Datorn: {stats.ComputerWins}]\n");
             }
 
@@ -39,7 +40,7 @@ namespace Projekt
             bool playAgain;
 
             // Yttre delen av loopen för hela matcher
-            do
+            do 
             {
                 // Nollställ poängen inför varje ny match
                 human.Score = 0;
@@ -59,16 +60,16 @@ namespace Projekt
                     Console.WriteLine("3: Påse");
                     Console.Write("Ditt val (1-3): ");
 
-                    string input = Console.ReadLine() ?? "";
+                    string input = Console.ReadLine() ?? ""; // Tar emot handval
 
                     // Inmatningen valideras och konverteras till Choice enum
-                    if (int.TryParse(input, out int choiceNumber) && choiceNumber >= 1 && choiceNumber <= 3)
+                    if (int.TryParse(input, out int choiceNumber) && choiceNumber >= 1 && choiceNumber <= 3)    // Kollar om inmatningen är ett giltigt nummer mellan 1 och 3 och skapar choiceNumber
                     {
-                        Choice playerChoice = (Choice)choiceNumber;        // Choice från Player.cs 
-                        Choice computerChoice = (Choice)random.Next(1, 4); // Slumpar 1, 2 eller 3
+                        Choice playerChoice = (Choice)choiceNumber;                                             // castar choiceNumber till Choice enum
+                        Choice computerChoice = (Choice)random.Next(1, 4);                                      // Slumpar 1, 2 eller 3 från choice enum
 
                         Console.WriteLine("\nSten...");
-                        Thread.Sleep(400);                                 // Pausar i 400 millisekunder 
+                        Thread.Sleep(400);                                                                      // Pausar i 400 millisekunder 
                         Console.WriteLine("Sax...");
                         Thread.Sleep(400);
                         Console.WriteLine("Påse..!\n");
@@ -92,6 +93,7 @@ namespace Projekt
                         Console.WriteLine("\nTryck på valfri tangent för att fortsätta..."); // En paus här för att spelaren ska hinna se resultat innan Clear()
                         Console.ReadKey();
                     }
+                    // Om inmatningen inte är giltig, visa ett felmeddelande och be om ny inmatning
                     else
                     {
                         Console.WriteLine("Ogiltigt val! Ange en siffra mellan 1 och 3.");
@@ -106,7 +108,7 @@ namespace Projekt
                 if (human.Score >= maxScore)
                 {
                     Console.WriteLine($"GRATTIS! {human.Name} vann hela matchen!\n");
-                    stats.HumanWins++;          // ökar spelarens vinster
+                    stats.HumanWins++;          // ökar spelarens vinster 
 
                     if (stats.HumanWins == 3)   // Easter egg för tre vinster
                     {
@@ -116,20 +118,20 @@ namespace Projekt
                 else
                 {
                     Console.WriteLine($"\nDATORN VANN MATCHEN! Bättre lycka nästa gång.\n");
-                    stats.ComputerWins++; // ökar datorns vinster
+                    stats.ComputerWins++; // ökar datorns vinster, ++ 
                 }
 
                 Console.WriteLine("=================================");
 
                 // spara uppdaterad statistik till fil
                 string updatedJson = JsonSerializer.Serialize(stats);
-                File.WriteAllText(filePath, updatedJson);
+                File.WriteAllText(filePath, updatedJson);                               // skrive över den uppdaterade statistiken till filen
                 Console.WriteLine($"\nStatistik sparad till: {Path.GetFullPath(filePath)}");
 
                 // Fråga om en ny match
                 Console.Write("\nVill du spela en ny match? (j/n): ");
                 string playAgainInput = Console.ReadLine()?.Trim().ToLower() ?? "";
-                playAgain = playAgainInput == "j" || playAgainInput == "ja";          // allt annat än ja eller j stänger av loopen
+                playAgain = playAgainInput == "j" || playAgainInput == "ja";           // allt annat än ja eller j stänger av loopen
 
             } while (playAgain);
 

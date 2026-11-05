@@ -26,7 +26,7 @@ namespace Projekt
                 return "Oavgjort!";
             }
 
-            // logik för att avgöra vinnaren
+            // logik för att avgöra vinnaren, antingen vinner spelaren och alla andra fall är att datorn vinner
             bool playerWins = (playerChoice == Choice.Sten && computerChoice == Choice.Sax) ||
                               (playerChoice == Choice.Sax && computerChoice == Choice.Påse) ||
                               (playerChoice == Choice.Påse && computerChoice == Choice.Sten);
